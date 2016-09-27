@@ -1,0 +1,5 @@
+// GENERATED FILE - DO NOT EDIT
+include ":"
+include ":CordovaLib"
+include ":cordova-plugin-connectsdk:Connect-SDK-Android"
+project(":cordova-plugin-connectsdk:Connect-SDK-Android").projectDir = new File("cordova-plugin-connectsdk/hellocordova-Connect-SDK-Android")
