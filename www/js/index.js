@@ -46,11 +46,11 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-    }
+    },
 	// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
 	setupDiscovery: function () {
 		ConnectSDK.discoveryManager.startDiscovery();
-	}
+	},
 	// Handler added by Devin 9/29/16
 	showDevicePicker: function () {
 		ConnectSDK.discoveryManager.pickDevice();
