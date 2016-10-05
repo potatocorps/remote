@@ -34,6 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+		app.setupDiscovery(); // added by Devin 9/29/16 to test ConnectSDK functionality
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -45,7 +46,16 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-    }
+    },
+			// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
+			setupDiscovery: function () {
+
+				ConnectSDK.discoveryManager.startDiscovery();
+			},
+			// Handler added by Devin 9/29/16
+			showDevicePicker: function () {
+				ConnectSDK.discoveryManager.pickDevice();
+	}
 };
 
-app.initialize();
+//app.initialize();
