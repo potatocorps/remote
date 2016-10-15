@@ -47,9 +47,10 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
+<<<<<<< HEAD
 			// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
 			setupDiscovery: function () {
-				alert("SetupDiscover Called");
+
 				ConnectSDK.discoveryManager.startDiscovery();
 			},
 			// Handler added by Devin 9/29/16
@@ -58,4 +59,4 @@ var app = {
 	}
 };
 
-app.initialize();
+//app.initialize();

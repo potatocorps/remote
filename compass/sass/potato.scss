@@ -1,0 +1,9 @@
+
+// Third Party
+@import "compass/layout.scss";
+@import "vender/bootstrap_v3.3.7/_bootstrap.scss";
+@import "vender/font-awesome-4.6.3/font-awesome/_font-awesome.scss";
+
+
+ 
+@include sticky-footer(72px, "#main", "#sticky-footer-div", "#sticy-footer");
