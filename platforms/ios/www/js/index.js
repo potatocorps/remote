@@ -47,7 +47,7 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-<<<<<<< HEAD
+    
 			// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
 			setupDiscovery: function () {
 
@@ -59,4 +59,28 @@ var app = {
 	}
 };
 
-//app.initialize();
+app.initialize();
+
+$(document).ready(function() {
+	alert("document ready");
+	document.addEventListener("deviceready", onDeviceReady, false);
+	
+	// Load Dynamic Bindings
+  $( "body" ).on( "click", "i", function() {
+  	alert( "click" );
+	});
+	/*	
+		$("#up").click(function() {
+			alert( "click Function" );
+			
+			
+		});*/
+});
+
+function onDeviceReady() {
+    // Now safe to use device APIs
+    alert("Device Ready");
+    
+    
+    
+}
