@@ -40,21 +40,55 @@
         <title>Hello World</title>
     </head>
     <body>
-	    <div id="main" class="container">
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-						<button onclick="app.showDevicePicker()">Select a device</button> <!-- Button added by Devin 9/29/16 for ConnectSDK functionality test -->
-				</div>
-			<div id="sticky-footer-div"></div> <!-- Used By Sticky Footer: DO Not Place any More elements insdie the #main below this element -->
+    <main id="main" class="container-fluid">
+      <div class="row">
+	      <div class="col-sm-12">
+          <h1>Apache Cordova</h1>
+          <div id="deviceready" class="blink">
+              <p class="event listening">Connecting to Device</p>
+              <p class="event received">Device is Ready</p>
+          </div>  
+	      </div>
 			</div>
-		<footer id="sticky-footer" class="container">
-				Footer
+			<div class="row">
+				<div class="col-sm-4">1</div>
+				<div class="col-sm-4">2</div>
+				<div class="col-sm-4">3</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4">4</div>
+				<div class="col-sm-4">5</div>
+				<div class="col-sm-4"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4">7</div>
+				<div class="col-sm-4">8</div>
+				<div class="col-sm-4">9</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4">10</div>
+				<div class="col-sm-4">11</div>
+				<div class="col-sm-4">12</div>
+			</div>
+			<div id="sticky-footer-div"></div> <!-- Used By Sticky Footer: DO Not Place any More elements insdie the #main below this element -->
+		</main>
+		<footer id="sticky-footer" class="container-fluid">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="btn-group btn-group-justified" role="group" aria-label="...">
+						  <div class="btn-group" role="group">
+						    <button type="button" class="btn btn-default">Select Remote</button>
+						  </div>
+						  <div class="btn-group" role="group">
+						    <button type="button" class="btn btn-default">Select a device</button>
+						  </div>
+						  <div class="btn-group" role="group">
+						    <button type="button" class="btn btn-default">New Layouts</button>
+						  </div>
+						</div>
+					</div>
+				</div>
 		</footer>
-     
      <script type="text/javascript" src="cordova.js"></script>
      <script type="text/javascript" src="js/index.js"></script>
      <script type="text/javascript" src="js/vender/jquery-3.1.1.js"></script>
