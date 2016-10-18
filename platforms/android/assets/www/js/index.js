@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ 
+/*
 var app = {
     // Application Constructor
     initialize: function() {
@@ -47,7 +49,7 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-<<<<<<< HEAD
+    
 			// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
 			setupDiscovery: function () {
 
@@ -59,4 +61,53 @@ var app = {
 	}
 };
 
-//app.initialize();
+app.initialize();
+
+*/
+
+
+
+$(document).ready(function() {
+	//alert("document ready");
+	
+	
+	document.addEventListener("deviceready", onDeviceReady, false);
+
+});
+
+
+
+function onDeviceReady() {
+  // Now safe to use device APIs
+  alert("Device Ready");
+  
+  
+  QuickDiscovery(); // Automatically search for devices on startup
+  
+  // Load Static Bindings
+  $("#select-device").click(function(){
+		ConnectSDK.discoveryManager.pickDevice();
+	});
+    
+    
+ 	// Load Dynamic Bindings
+  $( "body" ).on( "click", "i", function() {
+  	alert( "click" );
+	});
+    
+    
+}
+
+
+/****************************************************
+ *
+ *	Searches For Devices on the connected network.
+ *	Stops searching after 10 seconds.
+ *
+ ***************************************************/
+function QuickDiscovery() {
+	alert("qD called");
+	ConnectSDK.discoveryManager.startDiscovery();
+	
+	setTimeout(function() { ConnectSDK.discoveryManager.stopDiscovery(); }, 10000); // Stop Searching After 10 Seconds
+}
