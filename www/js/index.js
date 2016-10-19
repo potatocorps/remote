@@ -17,12 +17,17 @@
  * under the License.
  */
  
-/*
+
 var app = {
+	
+	// KO Properties
+	
+	
     // Application Constructor
     initialize: function() {
         this.bindEvents();
     },
+    
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
@@ -30,12 +35,30 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
+    
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+      app.receivedEvent('deviceready');
+        
+      alert("Device Ready");
+      
+      QuickDiscovery(); // Automatically search for devices on startup
+  
+			// Load Static Bindings
+			$("#select-device").click(function(){
+				ConnectSDK.discoveryManager.pickDevice();
+			});
+			  
+			  
+				// Load Dynamic Bindings
+			$( "body" ).on( "click", "i", function() {
+				alert( "click" );
+			});
+
+        
 		app.setupDiscovery(); // added by Devin 9/29/16 to test ConnectSDK functionality
     },
     // Update DOM on a Received Event
@@ -63,7 +86,8 @@ var app = {
 
 app.initialize();
 
-*/
+/*
+ko.applyBindings(app);
 
 
 
@@ -71,32 +95,9 @@ $(document).ready(function() {
 	//alert("document ready");
 	
 	
-	document.addEventListener("deviceready", onDeviceReady, false);
+	//document.addEventListener("deviceready", onDeviceReady, false);
 
 });
-
-
-
-function onDeviceReady() {
-  // Now safe to use device APIs
-  alert("Device Ready");
-  
-  
-  QuickDiscovery(); // Automatically search for devices on startup
-  
-  // Load Static Bindings
-  $("#select-device").click(function(){
-		ConnectSDK.discoveryManager.pickDevice();
-	});
-    
-    
- 	// Load Dynamic Bindings
-  $( "body" ).on( "click", "i", function() {
-  	alert( "click" );
-	});
-    
-    
-}
 
 
 /****************************************************
