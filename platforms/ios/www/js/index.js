@@ -21,73 +21,118 @@
 var app = {
 	
 	// KO Properties
+	modelName: ko.observable(""),
+	availableRemotes: ko.observableArray(),
 	
-	
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
-    
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-      app.receivedEvent('deviceready');
-        
-      alert("Device Ready");
-      
-      QuickDiscovery(); // Automatically search for devices on startup
+  // Application Constructor
+  initialize: function() {
+      this.bindEvents();
+      console.log("Intializing App");
+  },
   
-			// Load Static Bindings
-			$("#select-device").click(function(){
-				ConnectSDK.discoveryManager.pickDevice();
-			});
-			  
-			  
-				// Load Dynamic Bindings
-			$( "body" ).on( "click", "i", function() {
-				alert( "click" );
-			});
-
-        
-		app.setupDiscovery(); // added by Devin 9/29/16 to test ConnectSDK functionality
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    },
+  // Bind Event Listeners
+  //
+  // Bind any events that are required on startup. Common events are:
+  // 'load', 'deviceready', 'offline', and 'online'.
+  bindEvents: function() {
+      document.addEventListener('deviceready', this.onDeviceReady, false);
+      console.log("Binding 'deviceready' event to DOM");
+  },
+  
+  // deviceready Event Handler
+  //
+  // The scope of 'this' is the event. In order to call the 'receivedEvent'
+  // function, we must explicitly call 'app.receivedEvent(...);'
+  onDeviceReady: function() {
+    //app.receivedEvent('deviceready');
+      
+    alert("Device Ready");
     
-			// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
-			setupDiscovery: function () {
+    app.loadSpudFiles();
+    
+    QuickDiscovery(); // Automatically search for devices on startup
 
-				ConnectSDK.discoveryManager.startDiscovery();
-			},
-			// Handler added by Devin 9/29/16
-			showDevicePicker: function () {
-				ConnectSDK.discoveryManager.pickDevice();
-	}
+		// Load Static Bindings
+		$("#select-device").click(function(){
+			ConnectSDK.discoveryManager.pickDevice();
+		});
+		  
+		  
+			// Load Dynamic Bindings
+		$( "body" ).on( "click", "i", function() {
+			alert( "click" );
+		});
+		
+		
+		/*
+		function success(entries) {
+    	var i;
+	    for (i=0; i<entries.length; i++) {
+	        console.log('En - ', entries[i]);
+	    }
+		}
+		
+		function fail(error) {
+		    console.log("Failed to list directory contents: ", error);
+		}
+		
+		window.resolveLocalFileSystemURL(DIR_FULL_PATH, function(dirEntry) {
+	    var directoryReader = dirEntry.createReader();
+	    alert(dirEntry);
+	
+	    // Get a list of all the entries in the directory
+	    directoryReader.readEntries(success,fail);
+		});
+    */
+    
+    
+		app.setupDiscovery(); // added by Devin 9/29/16 to test ConnectSDK functionality
+  },
+  
+  
+  // Update DOM on a Received Event
+  receivedEvent: function(id) {
+      var parentElement = document.getElementById(id);
+      var listeningElement = parentElement.querySelector('.listening');
+      var receivedElement = parentElement.querySelector('.received');
+
+      listeningElement.setAttribute('style', 'display:none;');
+      receivedElement.setAttribute('style', 'display:block;');
+
+      console.log('Received Event: ' + id);
+  },
+  
+	
+	
+	// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
+	setupDiscovery: function () {
+
+			ConnectSDK.discoveryManager.startDiscovery();
+	},
+	
+		// Handler added by Devin 9/29/16
+	showDevicePicker: function () {
+			ConnectSDK.discoveryManager.pickDevice();
+	},
+	
+	// Loads Remote Files from Core & Custom Directories
+	loadSpudFiles: function () {
+		alert("Spud Searching");
+	},
+	
 };
 
 app.initialize();
 
+
+
+
+
 /*
 ko.applyBindings(app);
+
+
+
 
 
 
@@ -110,5 +155,5 @@ function QuickDiscovery() {
 	alert("qD called");
 	ConnectSDK.discoveryManager.startDiscovery();
 	
-	setTimeout(function() { ConnectSDK.discoveryManager.stopDiscovery(); }, 10000); // Stop Searching After 10 Seconds
+	setTimeout(function() {alert("Stop Searching"); ConnectSDK.discoveryManager.stopDiscovery(); }, 10000); // Stop Searching After 10 Seconds
 }

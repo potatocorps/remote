@@ -18,6 +18,9 @@
     <feature name="ConnectSDK">
         <param name="ios-package" value="ConnectSDKCordova" />
     </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
     <name>HelloCordova</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.

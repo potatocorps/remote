@@ -26,6 +26,7 @@
 		89243A407BE34847A0ACCC5E /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 214D225912AC4B6983016C3C /* Bolts.framework */; };
 		ABD03B564831452EB323F855 /* AmazonFling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091CA0F3A4E043F88EEAD3AA /* AmazonFling.framework */; };
 		AF0623DE11054ED89AA0C4DB /* ConnectSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5907428A404CC7B14ABCD6 /* ConnectSDK.framework */; };
+		899C2B5F02184058808C49C6 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AD2A3A122A49DBA95C7256 /* CDVLogger.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,8 @@
 		214D225912AC4B6983016C3C /* Bolts.framework */ = {isa = PBXFileReference; name = "Bolts.framework"; path = "HelloCordova/Plugins/cordova-plugin-connectsdk/Bolts.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		091CA0F3A4E043F88EEAD3AA /* AmazonFling.framework */ = {isa = PBXFileReference; name = "AmazonFling.framework"; path = "HelloCordova/Plugins/cordova-plugin-connectsdk/AmazonFling.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		2E5907428A404CC7B14ABCD6 /* ConnectSDK.framework */ = {isa = PBXFileReference; name = "ConnectSDK.framework"; path = "HelloCordova/Plugins/cordova-plugin-connectsdk/ConnectSDK.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		64AD2A3A122A49DBA95C7256 /* CDVLogger.m */ = {isa = PBXFileReference; name = "CDVLogger.m"; path = "cordova-plugin-console/CDVLogger.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		2B14FF73BE98458D8BA50969 /* CDVLogger.h */ = {isa = PBXFileReference; name = "CDVLogger.h"; path = "cordova-plugin-console/CDVLogger.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +206,8 @@
 				E3C93E1D8F36435781B0844E /* ConnectSDKCordova.h */,
 				133659341BCF4FAD882C735B /* ConnectSDKCordovaDispatcher.h */,
 				21A27865B7AE400F822AC121 /* ConnectSDKCordovaObjects.h */,
+				64AD2A3A122A49DBA95C7256 /* CDVLogger.m */,
+				2B14FF73BE98458D8BA50969 /* CDVLogger.h */,
 			);
 			name = Plugins;
 			path = "HelloCordova/Plugins";
@@ -317,6 +322,7 @@
 				1FF7E05CB265439C9B3D6202 /* ConnectSDKCordova.m in Sources */,
 				D640D742F5674135BB4D065D /* ConnectSDKCordovaDispatcher.m in Sources */,
 				CA784FF1C4BD4D0B96F47ABA /* ConnectSDKCordovaObjects.m in Sources */,
+				899C2B5F02184058808C49C6 /* CDVLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
