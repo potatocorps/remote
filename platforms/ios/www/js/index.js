@@ -19,32 +19,13 @@
  
 
 	
-		/*
-		function success(entries) {
-    	var i;
-	    for (i=0; i<entries.length; i++) {
-	        console.log('En - ', entries[i]);
-	    }
-		}
 		
-		function fail(error) {
-		    console.log("Failed to list directory contents: ", error);
-		}
-		
-		window.resolveLocalFileSystemURL(DIR_FULL_PATH, function(dirEntry) {
-	    var directoryReader = dirEntry.createReader();
-	    alert(dirEntry);
-	
-	    // Get a list of all the entries in the directory
-	    directoryReader.readEntries(success,fail);
-		});
-    */
     
 
 
 
 function AppViewModel() {
-	var self = this;
+	var self = this; // Used to remove "this" ambiguity.
 	
 	// KO Properties
 	self.deviceName = ko.observable();
@@ -55,86 +36,104 @@ function AppViewModel() {
 	self.keyControl;
 	self.mediaControl;
 	
+	// KO Computed Properties
 	self.deviceDescription = ko.pureComputed(function() {
 		var answer = "No Device Selected";
-		var answer2 = this.deviceName() + "("+ this.deviceIP()+ ")";
+		var answer2 = this.deviceName() + " ("+ this.deviceIP()+ ")";
 		
 		if(self.selectedDevice !== undefined) {
 		  answer = answer2;
 		}
 		
 		return answer;
-			
-		
-		},
-		self
+				
+		},self
 	);
 	
 	
-  // Application Constructor
+   /*********************************************************************************
+	 *
+	 *	Application Constructor
+	 *
+	 ********************************************************************************/
   self.initialize = function() {
       console.log("Intializing App");
       
       self.bindEvents();
 	      
 	    // TESTING - SHOULD BE MOVED TO DEVICE READY FUNCTION  
-	    self.loadDynamicBindings();
-	    self.loadSpudFiles(); 
+	    self.loadRemoteBindings();
+	    
   };
   
-  // Bind Event Listeners
-  //
-  // Bind any events that are required on startup. Common events are:
-  // 'load', 'deviceready', 'offline', and 'online'.
+  
+   /*********************************************************************************
+	 *
+	 *	Bind Event Listeners
+	 *	Bind any "device specific" (i.e. phone/tablet/etc) events that are required on startup.
+	 * 	Common events are: 'load', 'deviceready', 'offline', and 'online'.
+	 *
+	 ********************************************************************************/ 
   self.bindEvents = function() {
       console.log("Binding 'deviceready' event to DOM");
       document.addEventListener('deviceready', this.onDeviceReady, false);
   };
   
-  // deviceready Event Handler
-  //
-  // The scope of 'this' is the event. In order to call the 'receivedEvent'
-  // function, we must explicitly call 'app.receivedEvent(...);'
+  
+  
+  /*********************************************************************************
+	 *
+	 *	deviceready Event Handler - Device API's are now available
+	 *	Note: The scope of 'this' is the event.
+	 * 	References to app properties must use the "self" variable
+	 *
+	 ********************************************************************************/
+
   self.onDeviceReady = function() {
-    //app.receivedEvent('deviceready');
+    var directoryReader;
+    
+    function successCallback(dir) {
+	    
+	    directoryReader = dir.createReader();
+    }
+    
+    function success(entries) {
+		    var i;
+		    for (i=0; i<entries.length; i++) {
+		        console.log(entries[i].name);
+		    }
+		}
+		
+		function fail(error) {
+		    alert("Failed to list directory contents: " + error.code);
+		}
+    
+    
+    //window.resolveLocalFileSystemURL(cordova.file.applicationDirectory, successCallback, errorCallback);
+    
+    //directoryReader.readEntries(success,fail);
       
     console.log("Device Ready");
-    
-    				
-    //app.loadSpudFiles(); 		// Load Available Remotes
-    
-    
-    // Set Remote
-    //app.selectedRemote(app.availableRemotes()[0]);
-    
-    
     self.quickDiscovery(); // Automatically search for devices on startup
-
+    self.loadSpudFiles(); 
+											
+  };
+  
+	
+	/*********************************************************************************
+	 *
+	 *	Setup Custom Event Listeners for Remote Buttons
+	 *	Events are mapped to custom Device Handler Functions
+	 *
+	 ********************************************************************************/
+	self.loadRemoteBindings = function(){
+		
 		// Load Static Bindings
 		$("#select-device").click(function(){
 			self.selectDevice();
 		});
-	
-    
-		self.setupDiscovery(); // added by Devin 9/29/16 to test ConnectSDK functionality
-  };
-  
-  /*
-  // Update DOM on a Received Event
-  receivedEvent = function(id) {
-      var parentElement = document.getElementById(id);
-      var listeningElement = parentElement.querySelector('.listening');
-      var receivedElement = parentElement.querySelector('.received');
-
-      listeningElement.setAttribute('style', 'display:none;');
-      receivedElement.setAttribute('style', 'display:block;');
-
-      console.log('Received Event: ' + id);
-  },
-  */
-	
-	self.loadDynamicBindings = function(){
 		
+		// Load Dynamic Bindings
 		$( "body" ).on( "click", ".rb", function() {
 			
 			if(self.selectedDevice !== undefined) {
@@ -144,114 +143,114 @@ function AppViewModel() {
 					case "up":
 						self.keyControl.up()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("error");
 							
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "down":
 						self.keyControl.down()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("error");
 							
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "left":
 						self.keyControl.left()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("error");
 								});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "right":
 						self.keyControl.right()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("error");
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "home":
 						self.keyControl.home()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("error");
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "okay":
 						self.keyControl.ok()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("error");
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "play":
 						self.mediaControl.play()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("error");
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "stop":
 						self.mediaControl.stop()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("error");
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "play":
 						self.mediaControl.play()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("Error: " + error);
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "rw":
 						self.mediaControl.rewind()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("Error: " + error);
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					case "ff":
 						self.mediaControl.fastForward()
 							.success(function(launchSession){
-								alert("success");
+								//alert("success");
 							})
 							.error(function(error){
 								alert("Error: " + error);
 							});
-						alert(this.id + " CALLED");
+						console.log(this.id + " CALLED");
 						break;
 					default: alert("unknown command " + this.id + " selected");
 				}
@@ -268,15 +267,20 @@ function AppViewModel() {
 
 	};
 	
-	/****************************************************
+	/*********************************************************************************
 	 *
 	 *	Loads Remote Files from Core & Custom Directories
 	 *	
 	 *
-	 ***************************************************/
+	 ********************************************************************************/
 	self.loadSpudFiles = function () {
 		console.log("Spud Searching");
-
+		
+		// Load Cached File If It Exists
+		
+		
+		
+		
 		// Load default spud file located in ... and add to remote array
 
 		
@@ -325,12 +329,12 @@ function AppViewModel() {
 		
 	};
 	
-	/****************************************************
+	/*********************************************************************************
 	 *
 	 *	Searches For Devices on the connected network.
 	 *	Stops searching after 10 seconds.
 	 *
-	 ***************************************************/
+	 ********************************************************************************/
 	self.quickDiscovery = function () {
 		//alert("qD called");
 		ConnectSDK.discoveryManager.startDiscovery();
@@ -343,15 +347,14 @@ function AppViewModel() {
 	};
 	
 	
-	/****************************************************
+	/*********************************************************************************
 	 *
 	 *	Launches Device Selector
 	 *	Stores Selected Device Info
 	 *
-	 ***************************************************/
+	 ********************************************************************************/
 	self.selectDevice = function() {
 		ConnectSDK.discoveryManager.pickDevice().success(function(device){
-			alert("Success");
 			
 			function configureDevice(){
 				self.selectedDevice(device);
@@ -359,7 +362,6 @@ function AppViewModel() {
 				self.mediaControl = device.getMediaControl();
 				self.deviceName(device.getFriendlyName());
 				self.deviceIP(device.getIPAddress());
-				alert(typeof self.selectedDevice);
 			}
 			
 			if (device.isReady()) { // already connected
@@ -368,35 +370,46 @@ function AppViewModel() {
             device.on("ready", configureDevice);
             device.connect();
         }
-        
-			s
 		});
 	};
+	
+	self.initialize();
+	ko.applyBindings(self);
 };
 
-var app = new AppViewModel();
-ko.applyBindings(app);
-app.initialize();
 
-
-
-
-
-/*
-ko.applyBindings(app);
-
-
-
-
-
-
-$(document).ready(function() {
-	//alert("document ready");
+/*********************************************************************************
+*
+*	Instantiate an AppViewModel
+*
+********************************************************************************/
+$(document).ready(function(){
+	var app = new AppViewModel();
 	
 	
-	//document.addEventListener("deviceready", onDeviceReady, false);
-
+	/*
+		function success(entries) {
+    	var i;
+	    for (i=0; i<entries.length; i++) {
+	        console.log('En - ', entries[i]);
+	    }
+		}
+		
+		function fail(error) {
+		    console.log("Failed to list directory contents: ", error);
+		}
+		
+		window.resolveLocalFileSystemURL(DIR_FULL_PATH, function(dirEntry) {
+	    var directoryReader = dirEntry.createReader();
+	    alert(dirEntry);
+	
+	    // Get a list of all the entries in the directory
+	    directoryReader.readEntries(success,fail);
+		});
+    */
+	
+	//ko.applyBindings(app);
+	//app.initialize();
 });
 
-*/
 

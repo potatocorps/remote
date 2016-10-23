@@ -37,24 +37,26 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
         <link rel="stylesheet" type="text/css" href="css/potato.css">
-        <title>Hello World</title>
+        <title>Potato Remote</title>
     </head>
     <body>
     <main>
 	    <section>
-	    	<div class="row">
-					<div class="col-sm-12">
-					  <h1>Default Remote</h1>
-					  <h4 data-bind="visible: typeof selectedDevice() != 'undefined', text: deviceDescription"></h4>
-					</div>
-	    	</div>
+		    <div class="container-fluid">
+		    	<div class="row">
+						<div class="col-sm-12">
+						  <h1 data-bind="text: selectedRemote().name">Default Remote</h1>
+						  <h4 data-bind="visible: typeof selectedDevice() != 'undefined', text: deviceDescription"></h4>
+						</div>
+		    	</div>
+		    </div>
 	    </section>
       <section id="remote" data-bind="visible: typeof selectedDevice() != 'undefined', html: selectedRemote().html">
 	      
 	      <!-- SPUD PLACEHOLDER -->
 	     
       </section>
-	    <div id="sticky-footer-div"></div> <!-- Used By Sticky Footer: DO Not Place any More elements insdie the #main below this element -->
+	    <div id="sticky-footer-div"></div> <!-- Used By Sticky Footer: DO Not Place any More elements inside #main below this element -->
 		</main>
 		<footer id="sticky-footer" class="container-fluid">
 				<div class="row">
