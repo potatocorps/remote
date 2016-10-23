@@ -18,52 +18,7 @@
  */
  
 
-var app = {
 	
-	// KO Properties
-	modelName: ko.observable(""),
-	availableRemotes: ko.observableArray(),
-	
-  // Application Constructor
-  initialize: function() {
-      this.bindEvents();
-      console.log("Intializing App");
-  },
-  
-  // Bind Event Listeners
-  //
-  // Bind any events that are required on startup. Common events are:
-  // 'load', 'deviceready', 'offline', and 'online'.
-  bindEvents: function() {
-      document.addEventListener('deviceready', this.onDeviceReady, false);
-      console.log("Binding 'deviceready' event to DOM");
-  },
-  
-  // deviceready Event Handler
-  //
-  // The scope of 'this' is the event. In order to call the 'receivedEvent'
-  // function, we must explicitly call 'app.receivedEvent(...);'
-  onDeviceReady: function() {
-    //app.receivedEvent('deviceready');
-      
-    alert("Device Ready");
-    
-    app.loadSpudFiles();
-    
-    QuickDiscovery(); // Automatically search for devices on startup
-
-		// Load Static Bindings
-		$("#select-device").click(function(){
-			ConnectSDK.discoveryManager.pickDevice();
-		});
-		  
-		  
-			// Load Dynamic Bindings
-		$( "body" ).on( "click", "i", function() {
-			alert( "click" );
-		});
-		
-		
 		/*
 		function success(entries) {
     	var i;
@@ -85,13 +40,76 @@ var app = {
 		});
     */
     
+
+
+
+function AppViewModel() {
+	var self = this;
+	
+	// KO Properties
+	self.modelName = ko.observable("TEST");
+	self.availableRemotes = ko.observableArray();
+	self.selectedRemote = ko.observable({"html":""});
+	
+	
+  // Application Constructor
+  self.initialize = function() {
+      //self.bindEvents();
+      console.log("Intializing App");
+	      
+	    self.loadSpudFiles();
+      
+  };
+  
+  // Bind Event Listeners
+  //
+  // Bind any events that are required on startup. Common events are:
+  // 'load', 'deviceready', 'offline', and 'online'.
+  self.bindEvents = function() {
+      document.addEventListener('deviceready', this.onDeviceReady, false);
+      console.log("Binding 'deviceready' event to DOM");
+  };
+  
+  // deviceready Event Handler
+  //
+  // The scope of 'this' is the event. In order to call the 'receivedEvent'
+  // function, we must explicitly call 'app.receivedEvent(...);'
+  self.onDeviceReady = function() {
+    //app.receivedEvent('deviceready');
+      
+    console.log("Device Ready");
+    
+    				
+    //app.loadSpudFiles(); 		// Load Available Remotes
+    
+    
+    // Set Remote
+    //app.selectedRemote(app.availableRemotes()[0]);
+    
+    
+  
+    
+    QuickDiscovery(); // Automatically search for devices on startup
+
+		// Load Static Bindings
+		$("#select-device").click(function(){
+			ConnectSDK.discoveryManager.pickDevice();
+		});
+		  
+		  
+			// Load Dynamic Bindings
+		$( "body" ).on( "click", "i", function() {
+			alert( "click" );
+		});
+		
+	
     
 		app.setupDiscovery(); // added by Devin 9/29/16 to test ConnectSDK functionality
-  },
+  };
   
-  
+  /*
   // Update DOM on a Received Event
-  receivedEvent: function(id) {
+  receivedEvent = function(id) {
       var parentElement = document.getElementById(id);
       var listeningElement = parentElement.querySelector('.listening');
       var receivedElement = parentElement.querySelector('.received');
@@ -101,44 +119,76 @@ var app = {
 
       console.log('Received Event: ' + id);
   },
-  
+  */
 	
 	
 	// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
-	setupDiscovery: function () {
+	self.setupDiscovery = function () {
 
 			ConnectSDK.discoveryManager.startDiscovery();
 	},
 	
 		// Handler added by Devin 9/29/16
-	showDevicePicker: function () {
+	showDevicePicker = function () {
 			ConnectSDK.discoveryManager.pickDevice();
 	},
 	
 	// Loads Remote Files from Core & Custom Directories
-	loadSpudFiles: function () {
-		alert("Spud Searching");
-		
+	self.loadSpudFiles = function () {
+		console.log("Spud Searching");
+
 		// Load default spud file located in ... and add to remote array
+
 		
-		
+		$.ajax({"url": "core/remote/default/config.json", "dataType": "json"})
+			.done(function (results) {
+					try {
+					  var obj = results;
+					  
+					  obj.path = "core/remote/default/";
+					  obj.spudURL = obj.path + obj.spud;
+					  
+					  $.ajax({
+						 	"url":  obj.spudURL,
+						 	"dataType": "html",
+						 	"success" : function(html) {
+							 	
+							 	
+							 	obj.html = html;
+
+							  
+							  self.availableRemotes.push(obj);
+								self.selectedRemote( self.availableRemotes()[0]);
+								console.log("Selected Remote HTML: " + app.selectedRemote().html);
+						 	},
+						  "fail" : function(error) {
+							  alert(error);
+						  }
+					  });
+
+						
+					} catch (error) {
+						alert(error);
+						
+					}
+					//app.availableRemotes.push($.parseJSON(result));
+					//alert(app.availableRemotes[0].html);
+					
+			})
+			.fail(function(xmlHttpRequest, textStatus, errorThrown) {
+					alert("Readystate: " + xmlHttpRequest.readyState + " | Status: "+ xmlHttpRequest.status);
+			});
 		
 		// Search custom/remotes directory
 		
 		// Foreach directory found, add the remote to the remote array
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	},
+	};
 	
 };
+
+var app = new AppViewModel();
+ko.applyBindings(app);
 
 app.initialize();
 
@@ -170,11 +220,11 @@ $(document).ready(function() {
  *
  ***************************************************/
 function QuickDiscovery() {
-	alert("qD called");
+	//alert("qD called");
 	ConnectSDK.discoveryManager.startDiscovery();
 	
 	setTimeout(function() {
-			alert("Stop Searching");
+			console.log("Stop Searching");
 			ConnectSDK.discoveryManager.stopDiscovery();
 		}, 
 	10000); // Stop Searching After 10 Seconds
