@@ -50,19 +50,20 @@ function AppViewModel() {
 	self.modelName = ko.observable("TEST");
 	self.availableRemotes = ko.observableArray();
 	self.selectedRemote = ko.observable({"html":""});
+	self.selectedDevice;
+	self.keyControl;
+	self.mediaControl;
 	
 	
   // Application Constructor
   self.initialize = function() {
-      self.bindEvents();
       console.log("Intializing App");
-	      
+      
+      self.bindEvents();
 	      
 	    // TESTING - SHOULD BE MOVED TO DEVICE READY FUNCTION  
 	    self.loadDynamicBindings();
-	    self.loadSpudFiles();
-	    
-      
+	    self.loadSpudFiles(); 
   };
   
   // Bind Event Listeners
@@ -70,8 +71,8 @@ function AppViewModel() {
   // Bind any events that are required on startup. Common events are:
   // 'load', 'deviceready', 'offline', and 'online'.
   self.bindEvents = function() {
-      document.addEventListener('deviceready', this.onDeviceReady, false);
       console.log("Binding 'deviceready' event to DOM");
+      document.addEventListener('deviceready', this.onDeviceReady, false);
   };
   
   // deviceready Event Handler
@@ -91,13 +92,11 @@ function AppViewModel() {
     //app.selectedRemote(app.availableRemotes()[0]);
     
     
-  
-    
-    QuickDiscovery(); // Automatically search for devices on startup
+    self.quickDiscovery(); // Automatically search for devices on startup
 
 		// Load Static Bindings
 		$("#select-device").click(function(){
-			ConnectSDK.discoveryManager.pickDevice();
+			self.selectDevice();
 		});
 	
     
@@ -118,58 +117,149 @@ function AppViewModel() {
   },
   */
 	
-	
-	// Function added by Devin 9/29/16 to test ConnectSDK functionality, following documenttion
-	self.setupDiscovery = function () {
-
-			ConnectSDK.discoveryManager.startDiscovery();
-	},
-	
-		// Handler added by Devin 9/29/16
-	showDevicePicker = function () {
-			ConnectSDK.discoveryManager.pickDevice();
-	},
-	
 	self.loadDynamicBindings = function(){
 		
 		$( "body" ).on( "click", ".rb", function() {
-			alert(this.id);
+				alert(self.selectedDevice.getIPAddress() );
+				self.keyControl = self.selectedDevice.getKeyControl();
+				self.mediaControl = self.selectedDevice.getMediaControl();
+			if(self.keyControl !== undefined) {
+				alert(this.id);
+				switch(this.id){
+					
+					case "up":
+						self.keyControl.up()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "down":
+						self.keyControl.down()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "left":
+						self.keyControl.left()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+								});
+						alert(this.id + " CALLED");
+						break;
+					case "right":
+						self.keyControl.right()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "home":
+						self.keyControl.home()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "okay":
+						self.keyControl.ok()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "play":
+						self.mediaControl.play()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "stop":
+						self.mediaControl.stop()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "play":
+						self.mediaControl.play()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "rw":
+						self.mediaControl.rewind()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						alert(this.id + " CALLED");
+						break;
+					case "ff":
+						self.mediaControl.fastForward()
+							.success(function(launchSession){
+								alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						alert(this.id + " CALLED");
+						break;
+					default: alert("unknown command " + this.id + " selected");
+				}
+				
+				
+				
+			} else {
+					alert("Problem Detected With Selected Device");
+				
+			}
+			
+			
 		});
-		/*
-		$( "body" ).on( "click", "i", function() {
-			alert( "#icon clicked" );
-		
-		});	
-		$( "body" ).on( "click", "#", function() {
-			alert( "#up clicked" );
 
-		
-		});
-		$( "body" ).on( "click", "#down", function() {
-			alert( "#down clicked" );
-		
-		
-		});
-		$( "body" ).on( "click", "#left", function() {
-			alert( "#left clicked" );
-		
-		
-		});
-		$( "body" ).on( "click", "#right", function() {
-			alert( "#right clicked" );
-		
-		
-		});
-		$( "body" ).on( "click", "#okay", function() {
-			alert( "#okay clicked" );
-		
-		
-		});
-		*/
 	};
 	
-	
-	// Loads Remote Files from Core & Custom Directories
+	/****************************************************
+	 *
+	 *	Loads Remote Files from Core & Custom Directories
+	 *	
+	 *
+	 ***************************************************/
 	self.loadSpudFiles = function () {
 		console.log("Spud Searching");
 
@@ -195,7 +285,7 @@ function AppViewModel() {
 							  
 							  self.availableRemotes.push(obj);
 								self.selectedRemote( self.availableRemotes()[0]);
-								console.log("Selected Remote HTML: " + app.selectedRemote().html);
+								//console.log("Selected Remote HTML: " + app.selectedRemote().html);
 						 	},
 						  "fail" : function(error) {
 							  alert(error);
@@ -221,11 +311,56 @@ function AppViewModel() {
 		
 	};
 	
+	/****************************************************
+	 *
+	 *	Searches For Devices on the connected network.
+	 *	Stops searching after 10 seconds.
+	 *
+	 ***************************************************/
+	self.quickDiscovery = function () {
+		//alert("qD called");
+		ConnectSDK.discoveryManager.startDiscovery();
+		
+		setTimeout(function() {
+				console.log("Stop Searching");
+				ConnectSDK.discoveryManager.stopDiscovery();
+			}, 
+		10000); // Stop Searching After 10 Seconds
+	};
+	
+	
+	/****************************************************
+	 *
+	 *	Launches Device Selector
+	 *	Stores Selected Device Info
+	 *
+	 ***************************************************/
+	self.selectDevice = function() {
+		ConnectSDK.discoveryManager.pickDevice().success(function(device){
+			alert("Success");
+			
+			function configureDevice(){
+				self.selectedDevice = device;
+				self.keyControl = device.getKeyControl();
+				self.mediaControl = device.getMediaControl();
+				alert(self.selectedDevice.getIPAddress() );
+				
+			}
+			
+			if (device.isReady()) { // already connected
+            configureDevice();
+        } else {
+            device.on("ready", configureDevice);
+            device.connect();
+        }
+        
+			s
+		});
+	};
 };
 
 var app = new AppViewModel();
 ko.applyBindings(app);
-
 app.initialize();
 
 
@@ -248,20 +383,5 @@ $(document).ready(function() {
 
 });
 
+*/
 
-/****************************************************
- *
- *	Searches For Devices on the connected network.
- *	Stops searching after 10 seconds.
- *
- ***************************************************/
-function QuickDiscovery() {
-	//alert("qD called");
-	ConnectSDK.discoveryManager.startDiscovery();
-	
-	setTimeout(function() {
-			console.log("Stop Searching");
-			ConnectSDK.discoveryManager.stopDiscovery();
-		}, 
-	10000); // Stop Searching After 10 Seconds
-}
