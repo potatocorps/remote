@@ -1,12 +1,4 @@
 <div class="container">
-	<div class="row">
-		<div class="col-sm-12">
-		  <h1>Apache Cordova</h1>
-		  <div id="deviceready" class="blink">
-		      <p class="event listening">Connecting to Device</p>
-		      <p class="event received">Device is Ready</p>
-		  </div>  
-		</div>
 		<div class="row">
 			<div id="return" class="rb col-xs-4" onclick=""><i class="fa fa-reply fa-5x" aria-hidden="true"></i></div>
 			<div id="up" class="rb col-xs-4" onclick=""><i class="fa fa-chevron-up fa-5x" aria-hidden="true"></i></div>

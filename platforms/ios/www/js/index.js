@@ -47,12 +47,15 @@ function AppViewModel() {
 	var self = this;
 	
 	// KO Properties
-	self.modelName = ko.observable("TEST");
+	self.deviceName = ko.observable();
+	self.deviceIP = ko.observable();
 	self.availableRemotes = ko.observableArray();
 	self.selectedRemote = ko.observable({"html":""});
 	self.selectedDevice;
 	self.keyControl;
 	self.mediaControl;
+	
+	self.deviceDescription = ko.pureComputed(function() { this.deviceName + "("+this.deviceIP+")"},self);
 	
 	
   // Application Constructor
@@ -343,8 +346,8 @@ function AppViewModel() {
 				self.selectedDevice = device;
 				self.keyControl = device.getKeyControl();
 				self.mediaControl = device.getMediaControl();
-				alert(self.selectedDevice.getIPAddress() );
-				
+				self.deviceName = device.getFriendlyName();
+				self.deviceIP = device.getIPAddress();
 			}
 			
 			if (device.isReady()) { // already connected
