@@ -54,10 +54,14 @@ function AppViewModel() {
 	
   // Application Constructor
   self.initialize = function() {
-      //self.bindEvents();
+      self.bindEvents();
       console.log("Intializing App");
 	      
+	      
+	    // TESTING - SHOULD BE MOVED TO DEVICE READY FUNCTION  
+	    self.loadDynamicBindings();
 	    self.loadSpudFiles();
+	    
       
   };
   
@@ -95,16 +99,9 @@ function AppViewModel() {
 		$("#select-device").click(function(){
 			ConnectSDK.discoveryManager.pickDevice();
 		});
-		  
-		  
-			// Load Dynamic Bindings
-		$( "body" ).on( "click", "i", function() {
-			alert( "click" );
-		});
-		
 	
     
-		app.setupDiscovery(); // added by Devin 9/29/16 to test ConnectSDK functionality
+		self.setupDiscovery(); // added by Devin 9/29/16 to test ConnectSDK functionality
   };
   
   /*
@@ -132,6 +129,45 @@ function AppViewModel() {
 	showDevicePicker = function () {
 			ConnectSDK.discoveryManager.pickDevice();
 	},
+	
+	self.loadDynamicBindings = function(){
+		
+		$( "body" ).on( "click", ".rb", function() {
+			alert(this.id);
+		});
+		/*
+		$( "body" ).on( "click", "i", function() {
+			alert( "#icon clicked" );
+		
+		});	
+		$( "body" ).on( "click", "#", function() {
+			alert( "#up clicked" );
+
+		
+		});
+		$( "body" ).on( "click", "#down", function() {
+			alert( "#down clicked" );
+		
+		
+		});
+		$( "body" ).on( "click", "#left", function() {
+			alert( "#left clicked" );
+		
+		
+		});
+		$( "body" ).on( "click", "#right", function() {
+			alert( "#right clicked" );
+		
+		
+		});
+		$( "body" ).on( "click", "#okay", function() {
+			alert( "#okay clicked" );
+		
+		
+		});
+		*/
+	};
+	
 	
 	// Loads Remote Files from Core & Custom Directories
 	self.loadSpudFiles = function () {
