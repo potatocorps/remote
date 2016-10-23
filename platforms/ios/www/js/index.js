@@ -51,11 +51,24 @@ function AppViewModel() {
 	self.deviceIP = ko.observable();
 	self.availableRemotes = ko.observableArray();
 	self.selectedRemote = ko.observable({"html":""});
-	self.selectedDevice;
+	self.selectedDevice = ko.observable();
 	self.keyControl;
 	self.mediaControl;
 	
-	self.deviceDescription = ko.pureComputed(function() { this.deviceName + "("+this.deviceIP+")"},self);
+	self.deviceDescription = ko.pureComputed(function() {
+		var answer = "No Device Selected";
+		var answer2 = this.deviceName() + "("+ this.deviceIP()+ ")";
+		
+		if(self.selectedDevice !== undefined) {
+		  answer = answer2;
+		}
+		
+		return answer;
+			
+		
+		},
+		self
+	);
 	
 	
   // Application Constructor
@@ -123,11 +136,9 @@ function AppViewModel() {
 	self.loadDynamicBindings = function(){
 		
 		$( "body" ).on( "click", ".rb", function() {
-				alert(self.selectedDevice.getIPAddress() );
-				self.keyControl = self.selectedDevice.getKeyControl();
-				self.mediaControl = self.selectedDevice.getMediaControl();
-			if(self.keyControl !== undefined) {
-				alert(this.id);
+			
+			if(self.selectedDevice !== undefined) {
+				console.log(this.id);
 				switch(this.id){
 					
 					case "up":
@@ -218,7 +229,7 @@ function AppViewModel() {
 								alert("success");
 							})
 							.error(function(error){
-								alert("error");
+								alert("Error: " + error);
 							});
 						alert(this.id + " CALLED");
 						break;
@@ -228,7 +239,7 @@ function AppViewModel() {
 								alert("success");
 							})
 							.error(function(error){
-								alert("error");
+								alert("Error: " + error);
 							});
 						alert(this.id + " CALLED");
 						break;
@@ -238,7 +249,7 @@ function AppViewModel() {
 								alert("success");
 							})
 							.error(function(error){
-								alert("error");
+								alert("Error: " + error);
 							});
 						alert(this.id + " CALLED");
 						break;
@@ -248,7 +259,7 @@ function AppViewModel() {
 				
 				
 			} else {
-					alert("Problem Detected With Selected Device");
+					console.log("No Device Selected");
 				
 			}
 			
@@ -343,11 +354,12 @@ function AppViewModel() {
 			alert("Success");
 			
 			function configureDevice(){
-				self.selectedDevice = device;
+				self.selectedDevice(device);
 				self.keyControl = device.getKeyControl();
 				self.mediaControl = device.getMediaControl();
-				self.deviceName = device.getFriendlyName();
-				self.deviceIP = device.getIPAddress();
+				self.deviceName(device.getFriendlyName());
+				self.deviceIP(device.getIPAddress());
+				alert(typeof self.selectedDevice);
 			}
 			
 			if (device.isReady()) { // already connected

@@ -1,1 +1,4 @@
-{"spud": "default.spud"}
+{
+	"name": "default",
+	"spud": "default.spud"
+}
