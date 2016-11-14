@@ -132,7 +132,7 @@ function AppViewModel() {
 
     console.log("Device Ready");
 
-    self.quickDiscovery(); // Automatically search for devices on startup
+    //self.quickDiscovery(); // Automatically search for devices on startup
     self.loadSpudFiles();
     
     
@@ -153,9 +153,10 @@ function AppViewModel() {
 			self.selectDevice();
 		});
 
-		$("#select-remote").click(function(){
+		/*$("#select-remote").click(function(){
 			self.selectRemote();
 		});
+		*/
 		// Load Dynamic Bindings
 		$( "body" ).on( "click", ".rb", function() {
 
@@ -318,10 +319,44 @@ function AppViewModel() {
 		
 		
 		
-		// Search "core/remote" directory for subdirectories
+		// Helper Function: Searches "core/remote" directory for subdirectories
+		function discoverCustomRemotes(path){
+			window.resolveLocalFileSystemURL(path,
+				function (fileSystem) {
+		      var reader = fileSystem.createReader();
+		      reader.readEntries(
+	        	function (entries) {
+		        	for (i=0; i<entries.length; i++) {											// Call self.loadspudfile for each subdirectory found
+			        		str = JSON.stringify(entries[i], null, 4); 
+			        		if(entries[i].isDirectory) {
+				        		entry = entries[i].fullPath;
+				        		
+				        		// Following commands are to format the entry string before calling loadSpudFile
+				        		entry = entry.split("/");
+				        		entry.shift();
+				        		entry.shift();
+				        		entry = entry.join("/");
+				        		
+				        		
+			        			self.loadSpudFile(entry);
+			        		}
+			        	}
+	         	 return entries;
+	        	},
+	        	function (err) {
+		        	alert("Error reading File")
+	          	console.log(err);
+	        	}
+					);
+    		}, function (err) {
+	    			alert("Error resolving local file system URl")
+      		console.log(err);
+    		}
+			);
+		}
 		
-		// Call self.loadspudfile for each subdirectory found using the argument "core/remote/<name of subdirectory>"
-		self.loadSpudFile("core/remote/default/");
+		discoverCustomRemotes(cordova.file.applicationDirectory + "www/core/remote");
+
 		
 		
 		// Update Cache
@@ -340,8 +375,7 @@ function AppViewModel() {
 	 *
 	 ********************************************************************************/
 	self.loadSpudFile = function (path) {
-
-		$.ajax({"url": "core/remote/default/config.json", "dataType": "json"})
+		$.ajax({"url": path + "config.json", "dataType": "json"})
 			.done(function (results) {
 					try {
 					  var obj = results;
@@ -412,6 +446,7 @@ function AppViewModel() {
 	 *
 	 ********************************************************************************/
 	self.selectDevice = function() {
+		self.quickDiscovery();
 		ConnectSDK.discoveryManager.pickDevice().success(function(device){
 
 			function configureDevice(){
@@ -432,14 +467,22 @@ function AppViewModel() {
 	};
 	
 	
-	self.selectRemote = function() {
+	/*********************************************************************************
+	 *
+	 *	Set's Selected Remote Property to the new remote
+	 *	Updates CSS accodingly
+	 *	Note: this property is binded and will update view accordingly
+	 *	@arg: the "remote" argument is a reference to the selected remote object
+	 *
+	 ********************************************************************************/
+	self.selectRemote = function(remote) {
+
+		// Remove prior remote's css file if it exists
+		$("#remote_css").remove(); 
 		
-		$("#remote_css").remove(); // Remove prior remote's css file if it exists
-		
-		// Hardcoded to select first remote...
-		self.selectedRemote( self.availableRemotes()[0]);
-		
-		alert(self.selectedRemote().css);
+		// Set selectedRemote property
+		self.selectedRemote( remote);
+
 		// add new remote's css file
 		$("head").append("<link rel='stylesheet' type='text/css' href='"+self.selectedRemote().css+"'>");
 	}
