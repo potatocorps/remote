@@ -18,12 +18,6 @@
  */
  
 
-	
-		
-    
-
-
-
 function AppViewModel() {
 	var self = this; // Used to remove "this" ambiguity.
 	
@@ -90,13 +84,22 @@ function AppViewModel() {
 	 ********************************************************************************/
 
   self.onDeviceReady = function() {
+	  console.log("Device Ready");
+	  
     var directoryReader;
     
-    function successCallback(dir) {
+    function onFileSystemSuccess(fileSystem) {
+	    var directoryEntry = fileSystem.root;
 	    
-	    directoryReader = dir.createReader();
+	    //directoryReader = dir.createReader();
+	    alert("Name: " + directoryEntry.name);
     }
     
+    function onFileSystemFail(event) {
+		  alert(event.target.error.code);
+		}
+    
+    /*
     function success(entries) {
 		    var i;
 		    for (i=0; i<entries.length; i++) {
@@ -107,13 +110,13 @@ function AppViewModel() {
 		function fail(error) {
 		    alert("Failed to list directory contents: " + error.code);
 		}
+    */
     
-    
-    //window.resolveLocalFileSystemURL(cordova.file.applicationDirectory, successCallback, errorCallback);
+    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, onFileSystemFail);
     
     //directoryReader.readEntries(success,fail);
       
-    console.log("Device Ready");
+    
     self.quickDiscovery(); // Automatically search for devices on startup
     self.loadSpudFiles(); 
 											
@@ -192,6 +195,16 @@ function AppViewModel() {
 							});
 						console.log(this.id + " CALLED");
 						break;
+					case "back":
+						self.keyControl.back()
+							.success(function(launchSession){
+								//alert("success");
+							})
+							.error(function(error){
+								alert("error");
+							});
+						console.log(this.id + " CALLED");
+						break;
 					case "okay":
 						self.keyControl.ok()
 							.success(function(launchSession){
@@ -208,7 +221,7 @@ function AppViewModel() {
 								//alert("success");
 							})
 							.error(function(error){
-								alert("error");
+								alert("Play/Pause error");
 							});
 						console.log(this.id + " CALLED");
 						break;
@@ -219,16 +232,6 @@ function AppViewModel() {
 							})
 							.error(function(error){
 								alert("error");
-							});
-						console.log(this.id + " CALLED");
-						break;
-					case "play":
-						self.mediaControl.play()
-							.success(function(launchSession){
-								//alert("success");
-							})
-							.error(function(error){
-								alert("Error: " + error);
 							});
 						console.log(this.id + " CALLED");
 						break;
@@ -282,15 +285,35 @@ function AppViewModel() {
 		
 		
 		// Load default spud file located in ... and add to remote array
+		self.loadSpudFile("core/remote/default/");
+		
 
 		
+		// Search custom/remotes directory
+		
+		// Foreach directory found, add the remote to the remote array
+		
+	};
+	
+	
+	
+	
+	
+	/*********************************************************************************
+	 *
+	 *	Loads a specific SPUD file and its contained files
+	 *	
+	 *
+	 ********************************************************************************/
+	self.loadSpudFile = function (path) {
 		$.ajax({"url": "core/remote/default/config.json", "dataType": "json"})
 			.done(function (results) {
 					try {
 					  var obj = results;
 					  
-					  obj.path = "core/remote/default/";
+					  obj.path = path;//"core/remote/default/";
 					  obj.spudURL = obj.path + obj.spud;
+					  obj.css = obj.path + "remote.css";
 					  
 					  $.ajax({
 						 	"url":  obj.spudURL,
@@ -302,6 +325,7 @@ function AppViewModel() {
 
 							  
 							  self.availableRemotes.push(obj);
+							  
 								self.selectedRemote( self.availableRemotes()[0]);
 								//console.log("Selected Remote HTML: " + app.selectedRemote().html);
 						 	},
@@ -322,11 +346,6 @@ function AppViewModel() {
 			.fail(function(xmlHttpRequest, textStatus, errorThrown) {
 					alert("Readystate: " + xmlHttpRequest.readyState + " | Status: "+ xmlHttpRequest.status);
 			});
-		
-		// Search custom/remotes directory
-		
-		// Foreach directory found, add the remote to the remote array
-		
 	};
 	
 	/*********************************************************************************
@@ -386,30 +405,6 @@ function AppViewModel() {
 $(document).ready(function(){
 	var app = new AppViewModel();
 	
-	
-	/*
-		function success(entries) {
-    	var i;
-	    for (i=0; i<entries.length; i++) {
-	        console.log('En - ', entries[i]);
-	    }
-		}
-		
-		function fail(error) {
-		    console.log("Failed to list directory contents: ", error);
-		}
-		
-		window.resolveLocalFileSystemURL(DIR_FULL_PATH, function(dirEntry) {
-	    var directoryReader = dirEntry.createReader();
-	    alert(dirEntry);
-	
-	    // Get a list of all the entries in the directory
-	    directoryReader.readEntries(success,fail);
-		});
-    */
-	
-	//ko.applyBindings(app);
-	//app.initialize();
 });
 
 

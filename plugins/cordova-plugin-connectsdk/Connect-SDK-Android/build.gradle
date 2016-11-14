@@ -71,6 +71,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:mediarouter-v7:22.2.1'
     compile 'com.google.android.gms:play-services-cast:7.8.0'
+    
+    compile files('modules/firetv/libs/AmazonFling.jar')
+		compile files('modules/firetv/libs/WhisperPlay.jar')
 }
 
 apply from: 'maven-push.gradle'
