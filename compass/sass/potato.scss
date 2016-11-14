@@ -5,5 +5,5 @@
 @import "vender/font-awesome-4.6.3/font-awesome/_font-awesome.scss";
 
 
- 
+@import "modules/modules.scss"; 
 @include sticky-footer(72px, "main", "#sticky-footer-div", "#sticy-footer");
