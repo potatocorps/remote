@@ -153,6 +153,9 @@ function AppViewModel() {
 			self.selectDevice();
 		});
 
+		$("#select-remote").click(function(){
+			self.selectRemote();
+		});
 		// Load Dynamic Bindings
 		$( "body" ).on( "click", ".rb", function() {
 
@@ -311,20 +314,18 @@ function AppViewModel() {
 	self.loadSpudFiles = function () {
 		console.log("Spud Searching");
 
-		// Load Cached File If It Exists
-
+		// Load Cache file if it exists
 		
 		
 		
+		// Search "core/remote" directory for subdirectories
 		
-		// Load default spud file located in ... and add to remote array
+		// Call self.loadspudfile for each subdirectory found using the argument "core/remote/<name of subdirectory>"
 		self.loadSpudFile("core/remote/default/");
 		
-
 		
-		// Search custom/remotes directory
+		// Update Cache
 		
-		// Foreach directory found, add the remote to the remote array
 		
 	};
 	
@@ -335,7 +336,7 @@ function AppViewModel() {
 	/*********************************************************************************
 	 *
 	 *	Loads a specific SPUD file and its contained files
-	 *	
+	 *	@arg: path represents the path of the spud file to load
 	 *
 	 ********************************************************************************/
 	self.loadSpudFile = function (path) {
@@ -345,10 +346,9 @@ function AppViewModel() {
 					try {
 					  var obj = results;
 					  
-					  obj.path = path;//"core/remote/default/";
+					  obj.path = path;
 					  obj.spudURL = obj.path + obj.spud;
 					  obj.css = obj.path + "remote.css";
-					  
 					  $.ajax({
 						 	"url":  obj.spudURL,
 						 	"dataType": "html",
@@ -358,7 +358,7 @@ function AppViewModel() {
 
 							  self.availableRemotes.push(obj);
 							  
-								self.selectedRemote( self.availableRemotes()[0]);
+								
 								//console.log("Selected Remote HTML: " + app.selectedRemote().html);
 						 	},
 						  "fail" : function(error) {
@@ -430,6 +430,19 @@ function AppViewModel() {
         }
 		});
 	};
+	
+	
+	self.selectRemote = function() {
+		
+		$("#remote_css").remove(); // Remove prior remote's css file if it exists
+		
+		// Hardcoded to select first remote...
+		self.selectedRemote( self.availableRemotes()[0]);
+		
+		alert(self.selectedRemote().css);
+		// add new remote's css file
+		$("head").append("<link rel='stylesheet' type='text/css' href='"+self.selectedRemote().css+"'>");
+	}
 
 };
 
