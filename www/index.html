@@ -1,67 +1,78 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-    <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-             
-            <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *">   
-        -->
-        
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; script-src * 'unsafe-eval'; style-src 'self';
+        media-src *; frame-src *;  img-src * data:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, minimal-ui">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/potato.css">
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/my-app.css">
+	<link rel="stylesheet" type="text/css" data-bind="attr: { href: selectedRemote().css}" id="remote_css">
+    <title>Potato Remote</title>
+</head>
 
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <link rel="stylesheet" type="text/css" href="css/potato.css">
-        <title>Potato Remote</title>
-    </head>
-    <body>
-    <main>
-	    <section>
-		    <div class="container-fluid">
-		    	<div class="row">
-						<div class="col-sm-12">
-							<h3 data-bind="visible: typeof selectedDevice() != 'undefined', text: deviceDescription"></h3>
-						  <h4 data-bind="text: selectedRemote().name">Default Remote</h4>
-						  
-						</div>
-		    	</div>
-		    </div>
-	    </section>
-      <section id="remote" data-bind="visible: typeof selectedDevice() != 'undefined', html: selectedRemote().html">
-	      
-	      <!-- SPUD PLACEHOLDER -->
-	     
-      </section>
-	    <div id="sticky-footer-div"></div> <!-- Used By Sticky Footer: DO Not Place any More elements inside #main below this element -->
-		</main>
-		<footer id="sticky-footer" class="container-fluid">
-				<div class="row">
-					<div class="col-xs-12">
+<body class="layout-dark">
+    <!-- Status bar overlay for iOS7 issue - see my-app.css for background color setting and config.xml -->
+    <div class="statusbar-overlay"></div>
+
+    <!-- Panels overlay - used for side menu and any other panels to slide out from either side-->
+    <div class="panel-overlay"></div>
+
+    <!-- Left panel menu with reveal effect (could also use a panel-cover effect)-->
+    <div class="panel panel-left panel-reveal inset" id="bordRad">		
+		<div class="content-block" style="font-family: 'Comic Sans MS', cursive, sans-serif">
+			<em>
+			To get started, tap the "Select Device" button to select the device
+			you want to control. Once selected, the header will update with the
+			device's name, meaning the connection was successful. Then, tap the
+			"Select Remote" button pick for the list of available remote layouts.
+			</em>
+		</div>
+    </div>
+
+    <!-- Views-->
+    <div class="views">
+        <!-- Main view-->
+        <div class="view view-main">
+            <!-- Top Navigation Bar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <!-- Home navbar -->
+                    <div class="left">
+                        <!-- Left side navbar contains only icon -->
+                        <a href="#" class="link icon-only open-panel">
+                            <i class="fa fa-circle-o"></i>
+                        </a>
+                    </div>
+                    <div class="sliding" id="block_container">
+                        <span id="block1" data-bind="visible: typeof selectedDevice() != 'undefined', text: deviceDescription"></span>
+						<span id="block2" data-bind="text: selectedRemote().name"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pages - Fixed navbar and toolbar throughout all pages in this view stack-->
+            <div class="pages navbar-through toolbar-through">
+                <!-- Page, data-page contains page name-->
+                <div data-page="index" class="page">
+                    <!-- Scrollable page content-->
+                    <div class="page-content" id="remote" data-bind="visible: typeof selectedDevice() != 'undefined', html: selectedRemote().html"></div>
+                </div>
+            </div>
+
+            <!-- Bottom Toolbar on every view unless no-toolbar specified -->
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                     <div class="row">
+                        <div class="col-xs-12">
 						<div class="btn-group btn-group-justified" role="group" aria-label="...">
 						  <div class="btn-group dropup" role="group">
 						    <button id="select-remote" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Remote</button>
@@ -74,15 +85,22 @@
 						    <button id="select-device" type="button" class="btn btn-default">Select a device</button>
 						  </div>
 						</div>
-					</div>
-				</div>
-		</footer>
-     <script type="text/javascript" src="cordova.js"></script>
-     <script type="text/javascript" src="js/vender/jquery-3.1.1.js"></script>
-     <script type="text/javascript" src="js/vender/knockout-3.4.0.js"></script>
-     <script type="text/javascript" src="js/vender/bootstrap-3.3.7.min.js"></script>
-		 <script type="text/javascript" src="../plugins/cordova-plugin-connectsdk/ConnectSDK.js"></script>
-		 <script type="text/javascript" src="js/index.js"></script>
-		 
-    </body>
+					 </div>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/vender/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/vender/knockout-3.4.0.js"></script>	
+    <script type="text/javascript" src="js/vender/bootstrap-3.3.7.min.js"></script>
+    <script type="text/javascript" src="../plugins/cordova-plugin-connectsdk/ConnectSDK.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+	
+</body>
+
 </html>

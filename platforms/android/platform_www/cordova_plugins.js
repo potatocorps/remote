@@ -195,11 +195,11 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-whitelist": "1.3.0",
+    "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-connectsdk": "1.6.0",
     "cordova-plugin-console": "1.0.4",
-    "cordova-plugin-compat": "1.0.0",
-    "cordova-plugin-file": "4.3.0"
+    "cordova-plugin-file": "4.3.0",
+    "cordova-plugin-whitelist": "1.3.0"
 };
 // BOTTOM OF METADATA
 });

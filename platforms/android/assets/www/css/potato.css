@@ -12319,13 +12319,18 @@ button.close {
   clip: auto;
 }
 
+/* line 2, ../../compass/sass/modules/modules.scss */
+.absolute-center {
+  text-align: center;
+}
+
 /* line 10, /Users/sean/.rvm/gems/ruby-2.2.1/gems/compass-core-1.0.3/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
 /* line 12, /Users/sean/.rvm/gems/ruby-2.2.1/gems/compass-core-1.0.3/stylesheets/compass/layout/_sticky-footer.scss */
-#main {
+main {
   clear: both;
   min-height: 100%;
   height: auto !important;
@@ -12333,7 +12338,7 @@ html, body {
   margin-bottom: -72px;
 }
 /* line 18, /Users/sean/.rvm/gems/ruby-2.2.1/gems/compass-core-1.0.3/stylesheets/compass/layout/_sticky-footer.scss */
-#main #sticky-footer-div {
+main #sticky-footer-div {
   height: 72px;
 }
 

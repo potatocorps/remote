@@ -32,7 +32,7 @@ function AppViewModel() {
 	// KO Computed Properties
 	self.deviceDescription = ko.pureComputed(function() {
 		var answer = "No Device Selected";
-		var answer2 = this.deviceName() + " ("+ this.deviceIP()+ ")";
+		var answer2 = this.deviceName() + ": ";
 
 		if(self.selectedDevice !== undefined) {
 		  answer = answer2;
