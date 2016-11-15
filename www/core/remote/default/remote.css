@@ -1,14 +1,6 @@
 body {
-
+	
 	background-color: aqua;
 	background-image: none;
-
-}
-
-.cont{
-    background:#0F0;
-    width:400px;
-    height:40px;
-    line-height:40px;
-    display: table;
+	
 }
