@@ -1,0 +1,6 @@
+{
+    "libicucore.dylib": 1,
+    "libz.dylib": 1,
+    "libc++.dylib": 1,
+    "AdSupport.framework": 1
+}
