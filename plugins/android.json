@@ -8,21 +8,21 @@
     },
     "installed_plugins": {
         "cordova-plugin-connectsdk": {
-            "PACKAGE_NAME": "io.cordova.universalremote"
+            "PACKAGE_NAME": "io.cordova.potatoremote"
         },
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "io.cordova.universalremote"
+            "PACKAGE_NAME": "io.cordova.potatoremote"
         },
         "cordova-plugin-file": {
-            "PACKAGE_NAME": "io.cordova.universalremote"
+            "PACKAGE_NAME": "io.cordova.potatoremote"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.cordova.universalremote"
+            "PACKAGE_NAME": "io.cordova.potatoremote"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "io.cordova.universalremote"
+            "PACKAGE_NAME": "io.cordova.potatoremote"
         }
     }
 }

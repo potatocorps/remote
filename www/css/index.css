@@ -113,3 +113,18 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+#block_container
+{
+    text-align:center;
+}
+#bloc1, #bloc2
+{
+    display:inline;
+}
+
+#bordRad {
+	
+	border-radius: 0px;
+	
+}
